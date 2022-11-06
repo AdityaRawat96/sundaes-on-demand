@@ -1,14 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-import SummaryForm from './pages/summary/SummaryForm';
-import Options from './pages/entry/Options';
+import { Container } from 'react-bootstrap';
+import { OrderDetailsProvider } from './contexts/OrderDetails';
+import OrderEntry from './pages/entry/OrderEntry';
 
 function App() {
   return (
-    <>
-      <Options optionType="scoops" />
-      <Options optionType="toppings" />
-    </>
+    <Container>
+      <OrderDetailsProvider>
+        {/* Summary page and entry page need provider */}
+        <OrderEntry />
+      </OrderDetailsProvider>
+      {/* Confirmation page does not need provider */}
+    </Container>
   );
 }
 
