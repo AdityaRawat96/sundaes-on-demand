@@ -5,10 +5,6 @@ export const handlers = [
     return res(
       ctx.json([
         {
-          name: 'Mint chip',
-          imagePath: '/images/mint-chip.png',
-        },
-        {
           name: 'Vanilla',
           imagePath: '/images/vanilla.png',
         },
@@ -16,9 +12,19 @@ export const handlers = [
           name: 'Chocolate',
           imagePath: '/images/chocolate.png',
         },
+      ])
+    );
+  }),
+  rest.get('http://localhost:3030/toppings', (req, res, ctx) => {
+    return res(
+      ctx.json([
         {
-          name: 'Salted caramel',
-          imagePath: '/images/salted-caramel.png',
+          name: 'M&Ms',
+          imagePath: '/images/m-and-ms.png',
+        },
+        {
+          name: 'Hot fudge',
+          imagePath: '/images/hot-fudge.png',
         },
       ])
     );
