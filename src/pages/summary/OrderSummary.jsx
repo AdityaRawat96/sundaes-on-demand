@@ -2,8 +2,12 @@ import { useOrderDetails } from '../../contexts/OrderDetails';
 import { formatCurrency } from '../../utilities';
 import SummaryForm from './SummaryForm';
 
-const OrderSummary = () => {
+const OrderSummary = ({ setOrderPhase }) => {
   const { totals, optionCounts } = useOrderDetails();
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+    setOrderPhase('complete');
+  };
 
   const scoopArray = Object.entries(optionCounts.scoops); // [["chocolate", 2], ["vanilla", 1]]
   const scoopList = scoopArray.map(([key, value]) => (
@@ -20,9 +24,13 @@ const OrderSummary = () => {
       <h1>Order Summary</h1>
       <h2>Scoops: {formatCurrency(totals.scoops)}</h2>
       <ul>{scoopList}</ul>
-      <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
-      <ul>{toppingList}</ul>
-      <SummaryForm />
+      {totals.toppings > 0 && (
+        <div>
+          <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
+          <ul>{toppingList}</ul>
+        </div>
+      )}
+      <SummaryForm submitHandler={formSubmitHandler} />
     </div>
   );
 };

@@ -1,10 +1,25 @@
+import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useOrderDetails } from '../../contexts/OrderDetails';
 
 const ScoopOption = ({ name, imagePath }) => {
   const { updateItemCount } = useOrderDetails();
-  const handleChange = (e) =>
-    updateItemCount(name, parseInt(e.target.value), 'scoops');
+  const [isInvalid, setIsInvalid] = useState(false);
+  const handleChange = (e) => {
+    const spinnerValue = e.target.value;
+    if (
+      spinnerValue == '' ||
+      spinnerValue < 0 ||
+      spinnerValue > 10 ||
+      spinnerValue.split('.').length > 1
+    ) {
+      setIsInvalid(true);
+      updateItemCount(name, 0, 'scoops');
+    } else {
+      setIsInvalid(false);
+      updateItemCount(name, parseInt(spinnerValue), 'scoops');
+    }
+  };
 
   return (
     <Col sx={12} sm={6} md={4} lg={3} style={{ textAlign: 'center' }}>
@@ -23,6 +38,7 @@ const ScoopOption = ({ name, imagePath }) => {
         </Form.Label>
         <Col sx="5" style={{ textAlign: 'left' }}>
           <Form.Control
+            className={isInvalid ? 'is-invalid' : ''}
             type="number"
             defaultValue={0}
             onChange={handleChange}
